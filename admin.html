@@ -397,7 +397,7 @@ const GH_OWNER = 'U9955', GH_REPO = 'ahmad-links', GH_BRANCH = 'master';
 function ghHeaders(){
   const t = (document.getElementById('ghToken').value||'').trim();
   if(!t){ toast('Paste GitHub token first ⚠️'); return null; }
-  try{ sessionStorage.setItem('u9955_gh', t); }catch(_){}
+  try{ localStorage.setItem('u9955_gh', t); }catch(_){}
   return {Authorization:'token '+t, Accept:'application/vnd.github+json'};
 }
 function buildSiteConfig(){
@@ -429,7 +429,7 @@ async function publishGlobal(){
     toast('Published globally ✅');
   }catch(err){ st.textContent = '❌ '+err.message; toast('Publish failed ⚠️'); }
 }
-try{ const _s = sessionStorage.getItem('u9955_gh'); if(_s) document.getElementById('ghToken').value = _s; }catch(_){}
+try{ const _s = localStorage.getItem('u9955_gh'); if(_s) document.getElementById('ghToken').value = _s; }catch(_){}
 
 if(authed()) showDash();
 </script>
