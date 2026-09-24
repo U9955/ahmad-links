@@ -255,6 +255,7 @@ select{width:100%;background:#f5f3ff;color:#231942;border:1px solid rgba(109,40,
    ★★★ EDIT YOUR LINKS HERE ★★★ / عدّل روابطك هنا
 ===================================================== */
 const SITE_CONFIG = {
+  version: 1,
   name: "ahmad harith",
   username: "ahmad harith",
   bio: "all links here",
@@ -290,6 +291,13 @@ if(PROFILE.username === '@u9955 • Digital Creator'){ PROFILE.username = SITE_C
 if(PROFILE.bio && (PROFILE.bio.includes('Welcome to my universe') || PROFILE.bio === 'all links by ahmad here')){ PROFILE.bio = SITE_CONFIG.bio; store.set('profile', PROFILE); }
 // لو ما عنده صورة محفوظة، جرّب logo.gif تلقائياً
 if(!PROFILE.avatarImg) PROFILE.avatarImg = "logo.gif";
+// تحديث عالمي: إذا نُشرت نسخة جديدة من لوحة الأدمن اعتمد البيانات الرسمية عند الجميع
+var SITE_VER = SITE_CONFIG.version || 0;
+if(store.get('dataVer', 0) !== SITE_VER){
+  PROFILE = {name:SITE_CONFIG.name, username:SITE_CONFIG.username, bio:SITE_CONFIG.bio, avatarImg:SITE_CONFIG.avatarImg||'logo.gif'};
+  LINKS = SITE_CONFIG.links;
+  store.set('profile', PROFILE); store.set('links', LINKS); store.set('dataVer', SITE_VER);
+}
 
 function avatarFallback(){
   const box = document.getElementById('avatarBox');

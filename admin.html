@@ -183,6 +183,15 @@ input[type=color]{width:100%;height:40px;border:1px solid var(--line);border-rad
 
       <!-- BACKUP -->
       <div class="tab" id="tab-backup">
+        <div class="card" style="border:2px solid var(--a1)">
+          <h3>🌍 Publish — تحديث عالمي لكل الزوار</h3>
+          <div class="hint">ينشر تعديلاتك على الموقع الرسمي — تظهر عند الجميع بعد دقيقة تقريباً</div>
+          <label class="lbl">GitHub Token (repo)</label>
+          <input type="password" id="ghToken" placeholder="ghp_...">
+          <div style="font-size:12px;color:var(--muted);margin:8px 0">Repo: <b>U9955/ahmad-links</b> • Branch: <b>master</b></div>
+          <button class="btn btn-p" style="width:100%;justify-content:center" onclick="publishGlobal()">🚀 Publish Now</button>
+          <div id="pubStatus" style="font-size:13px;margin-top:10px;color:var(--muted)"></div>
+        </div>
         <div class="card">
           <h3>💾 Backup & Danger Zone</h3>
           <div class="hint">Download a copy of all links and settings</div>
@@ -382,6 +391,45 @@ function importJSON(e){
   r.readAsText(f);
 }
 function resetAll(){ if(confirm('Reset everything to defaults?')){ try{localStorage.clear();}catch(_){} location.reload(); } }
+
+/* ===== GLOBAL PUBLISH via GitHub (shows for everyone after Vercel redeploy) ===== */
+const GH_OWNER = 'U9955', GH_REPO = 'ahmad-links', GH_BRANCH = 'master';
+function ghHeaders(){
+  const t = (document.getElementById('ghToken').value||'').trim();
+  if(!t){ toast('Paste GitHub token first ⚠️'); return null; }
+  try{ sessionStorage.setItem('u9955_gh', t); }catch(_){}
+  return {Authorization:'token '+t, Accept:'application/vnd.github+json'};
+}
+function buildSiteConfig(){
+  const L = JSON.stringify(LINKS, null, 2).split('\n').map(function(x){ return '  '+x; }).join('\n');
+  return 'const SITE_CONFIG = {\n  version: '+Date.now()+',\n  name: '+JSON.stringify(PROFILE.name||'')+',\n  username: '+JSON.stringify(PROFILE.username||'')+',\n  bio: '+JSON.stringify(PROFILE.bio||'')+',\n  avatarText: "U9",\n  avatarImg: '+JSON.stringify(PROFILE.avatarImg||'logo.gif')+',\n  links: '+L+'\n};';
+}
+async function publishGlobal(){
+  const st = document.getElementById('pubStatus');
+  if(PROFILE.avatarImg && PROFILE.avatarImg.slice(0,5)==='data:' && PROFILE.avatarImg.length > 700000){
+    if(!confirm('Logo file is large ('+Math.round(PROFILE.avatarImg.length/1024)+'KB). Publishing embeds it in the site and slows loading. Use logo.gif file instead? Press OK to publish anyway.')) return;
+  }
+  const H = ghHeaders(); if(!H) return;
+  try{
+    st.textContent = '⏳ Reading site file...';
+    const get = await fetch('https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/index.html?ref='+GH_BRANCH, {headers:H});
+    if(!get.ok) throw new Error('read failed: '+get.status);
+    const j = await get.json();
+    const raw = decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))));
+    const re = /const SITE_CONFIG = \{[\s\S]*?\n\};/;
+    if(!re.test(raw)) throw new Error('config block not found');
+    const updated = raw.replace(re, buildSiteConfig);
+    st.textContent = '⏳ Publishing...';
+    const put = await fetch('https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/index.html', {
+      method:'PUT', headers:Object.assign({'Content-Type':'application/json'}, H),
+      body: JSON.stringify({message:'Update site from admin panel', content:btoa(unescape(encodeURIComponent(updated))), sha:j.sha, branch:GH_BRANCH})
+    });
+    if(!put.ok){ const e = await put.text(); throw new Error('publish '+put.status+': '+e.slice(0,150)); }
+    st.textContent = '✅ Published! Live for everyone in ~1 min (Vercel redeploys automatically).';
+    toast('Published globally ✅');
+  }catch(err){ st.textContent = '❌ '+err.message; toast('Publish failed ⚠️'); }
+}
+try{ const _s = sessionStorage.getItem('u9955_gh'); if(_s) document.getElementById('ghToken').value = _s; }catch(_){}
 
 if(authed()) showDash();
 </script>
