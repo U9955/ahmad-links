@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ff; --card:#ffffff; --ink:#231942; --muted:#7a7590;
+  --a1:#6d28d9; --a2:#8b5cf6; --red:#dc2626;
+  --line:rgba(109,40,217,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+/* ===== LOGIN ===== */
+#loginView{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
+  background:radial-gradient(800px 400px at 50% -5%, rgba(109,40,217,.25), transparent 60%),linear-gradient(180deg,#2a0a5e,#4c1d95 60%,#6d28d9)}
+.login-card{width:100%;max-width:380px;background:#fff;border-radius:24px;padding:34px 28px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.login-card .lock{width:70px;height:70px;margin:0 auto 14px;border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:30px;color:#fff;background:linear-gradient(135deg,#6d28d9,#dc2626)}
+.login-card h1{font-family:'Orbitron';font-size:20px;margin-bottom:4px}
+.login-card p{color:var(--muted);font-size:13px;margin-bottom:18px}
+/* ===== LAYOUT ===== */
+#dashView{display:none;min-height:100vh}
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:14px 20px;color:#fff;background:linear-gradient(135deg,#2a0a5e,#6d28d9 70%,#7c3aed);box-shadow:0 6px 24px rgba(42,10,94,.35)}
+.topbar .logo-dot{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:18px}
+.topbar b{font-family:'Orbitron';font-size:16px;letter-spacing:1px}
+.topbar .sp{flex:1}
+.tbtn{border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none}
+.tbtn:hover{background:rgba(255,255,255,.25)}
+.shell{display:flex;max-width:1200px;margin:0 auto;gap:18px;padding:20px;align-items:flex-start}
+.side{width:220px;min-width:220px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;position:sticky;top:76px}
+.navbtn{display:flex;align-items:center;gap:10px;width:100%;border:none;background:transparent;color:var(--ink);border-radius:12px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:4px}
+.navbtn i{width:22px;text-align:center;color:var(--a1)}
+.navbtn:hover{background:#f1eaff}
+.navbtn.active{background:linear-gradient(135deg,#6d28d9,#8b5cf6);color:#fff}
+.navbtn.active i{color:#fff}
+.main{flex:1;min-width:0}
+.tab{display:none}
+.tab.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 8px 26px rgba(109,40,217,.07)}
+.card h3{font-size:15px;margin-bottom:2px}
+.card .hint{color:var(--muted);font-size:13px;margin-bottom:14px}
+label.lbl{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin:12px 0 6px}
+input[type=text],input[type=password],input[type=url],select,textarea{width:100%;background:#f7f5ff;border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:11px 12px;font-size:14px;font-family:inherit;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--a1);box-shadow:0 0 0 3px rgba(109,40,217,.14)}
+.btn{border:none;cursor:pointer;font-weight:700;font-size:14px;padding:11px 20px;border-radius:12px;display:inline-flex;align-items:center;gap:8px;font-family:inherit}
+.btn-p{background:linear-gradient(135deg,#6d28d9,#dc2626);color:#fff;box-shadow:0 8px 20px rgba(109,40,217,.35)}
+.btn-g{background:#f1eaff;color:#3b1470}
+.btn-g:hover{background:#e4dbff}
+.btn-danger{background:#fef2f2;color:#b91c1c;border:1px solid rgba(220,38,38,.35)}
+.linkrow{background:#faf8ff;border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px}
+.linkrow .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.linkrow .full{grid-column:1/-1}
+.rowbtns{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.mini{border:1px solid var(--line);background:#fff;color:#3b1470;border-radius:10px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.mini:hover{background:#f1eaff}
+.mini.danger{border-color:rgba(220,38,38,.4);color:#b91c1c}
+.mini.danger:hover{background:#fef2f2}
+input[type=color]{width:100%;height:40px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:2px;cursor:pointer}
+.checkline{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#3b1470}
+.checkline input{width:17px;height:17px;accent-color:#6d28d9}
+#logoPrev{width:96px;height:96px;border-radius:26px;object-fit:cover;border:3px solid var(--a1);display:block;margin:0 auto 12px;background:#f1eaff}
+/* preview */
+.pv{background:linear-gradient(180deg,#fff,#f1eaff);border-radius:18px;padding:22px 16px;text-align:center;border:1px solid var(--line)}
+.pv .avatar{width:84px;height:84px;margin:0 auto 10px;border-radius:24px;background:linear-gradient(135deg,#6d28d9,#8b5cf6 45%,#dc2626);padding:3px}
+.pv .avatar div{width:100%;height:100%;border-radius:21px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Orbitron';font-weight:800;color:#3b1470}
+.pv .avatar img{width:100%;height:100%;object-fit:cover}
+.pv .nm{font-weight:700;color:#3b1470;font-size:14px}
+.pv .bio{color:var(--muted);font-size:12px;margin:6px 0 12px}
+.pv .pl{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 10px;margin-bottom:8px;text-align:left}
+.pv .pl .ic{width:36px;height:36px;min-width:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+.pv .pl b{font-size:13px;display:block}
+.pv .pl small{color:var(--muted);font-size:11px}
+.two{display:grid;grid-template-columns:1fr 340px;gap:18px;align-items:start}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:#231942;color:#fff;padding:12px 24px;border-radius:99px;font-weight:700;font-size:14px;z-index:99;transition:.3s}
+.icon-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:8px}
+.icon-pick{border:1px solid var(--line);background:#fff;color:#3b1470;border-radius:10px;padding:9px 0;font-size:15px;cursor:pointer}
+.icon-pick:hover{background:#f1eaff}
+.icon-pick.sel{background:linear-gradient(135deg,#6d28d9,#8b5cf6);color:#fff;border-color:transparent}
+.swatches{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.sw{width:30px;height:30px;border-radius:50%;border:2px solid rgba(35,25,66,.18);cursor:pointer;padding:0}
+.sw.sel{border-color:#231942;box-shadow:0 0 0 2px #fff,0 0 0 4px #231942}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.stat-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.stat-c{background:linear-gradient(135deg,#6d28d9,#8b5cf6);color:#fff;border-radius:16px;padding:16px;text-align:center}
+.stat-c b{font-family:'Orbitron';font-size:24px;display:block}
+.stat-c span{font-size:12px;opacity:.85}
+@media(max-width:900px){.two{grid-template-columns:1fr}.shell{flex-direction:column}.side{width:100%;position:static;display:flex;gap:6px;overflow-x:auto;padding:8px}.navbtn{white-space:nowrap;margin:0}}
+@media(max-width:560px){.linkrow .grid{grid-template-columns:1fr}.stat-cards{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginView">
+  <div class="login-card">
+    <div class="lock"><i class="fa-solid fa-lock"></i></div>
+    <h1>Admin Dashboard</h1>
+    <p>Enter password to manage your site</p>
+    <input type="password" id="pass" placeholder="Password" style="margin-bottom:12px" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="btn btn-p" style="width:100%;justify-content:center" onclick="doLogin()">Login</button>
+    <a href="index.html" style="display:inline-block;margin-top:12px;color:var(--a1);font-size:13px;font-weight:700;text-decoration:none">← Back to site</a>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashView">
+  <div class="topbar">
+    <div class="logo-dot"><i class="fa-solid fa-shield-halved"></i></div>
+    <b>ADMIN</b>
+    <div class="sp"></div>
+    <a class="tbtn" href="index.html"><i class="fa-solid fa-eye"></i> View site</a>
+    <button class="tbtn" onclick="logout()">Logout</button>
+  </div>
+
+  <div class="shell">
+    <div class="side">
+      <button class="navbtn active" onclick="tab('links',this)"><i class="fa-solid fa-link"></i> Links</button>
+      <button class="navbtn" onclick="tab('profile',this)"><i class="fa-solid fa-user"></i> Profile</button>
+      <button class="navbtn" onclick="tab('logo',this)"><i class="fa-solid fa-image"></i> Logo</button>
+      <button class="navbtn" onclick="tab('backup',this)"><i class="fa-solid fa-database"></i> Backup</button>
+    </div>
+
+    <div class="main">
+      <!-- LINKS -->
+      <div class="tab active" id="tab-links">
+        <div class="stat-cards">
+          <div class="stat-c"><b id="stLinks">0</b><span>Total links</span></div>
+          <div class="stat-c"><b id="stHot">0</b><span>HOT badges</span></div>
+          <div class="stat-c"><b id="stViews">0</b><span>Site visits</span></div>
+        </div>
+        <div class="two">
+          <div>
+            <div class="card">
+              <h3>🔗 Links Manager</h3>
+              <div class="hint">Everything saves automatically</div>
+              <div id="linkList"></div>
+              <button class="btn btn-p" style="width:100%;justify-content:center;margin-top:6px" onclick="addLink()">+ Add New Link</button>
+            </div>
+          </div>
+          <div class="pv">
+            <div style="font-size:12px;font-weight:700;color:var(--muted);letter-spacing:1px;margin-bottom:12px">LIVE PREVIEW</div>
+            <div class="avatar"><div id="pvAvatar">AH</div></div>
+            <div class="nm" id="pvName">ahmad harith</div>
+            <div class="bio" id="pvBio">all links here</div>
+            <div id="pvLinks"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div class="tab" id="tab-profile">
+        <div class="card">
+          <h3>👤 Profile</h3>
+          <div class="hint">Name and bio shown under the logo</div>
+          <label class="lbl">Name (ahmad harith line)</label>
+          <input type="text" id="fName" oninput="saveProfile()">
+          <label class="lbl">Bio (all links here line)</label>
+          <input type="text" id="fBio" oninput="saveProfile()">
+        </div>
+      </div>
+
+      <!-- LOGO -->
+      <div class="tab" id="tab-logo">
+        <div class="card" style="text-align:center">
+          <h3>🖼️ Logo / GIF</h3>
+          <div class="hint">PNG, JPG or animated GIF (max 2.5MB)</div>
+          <img id="logoPrev" alt="logo preview">
+          <label class="btn btn-p" style="width:100%;justify-content:center;cursor:pointer">
+            <i class="fa-solid fa-upload"></i> Upload GIF / Image
+            <input type="file" accept="image/*,.gif" style="display:none" onchange="uploadLogo(event)">
+          </label>
+          <label class="lbl" style="text-align:left">Or image link</label>
+          <input type="url" id="logoUrl" placeholder="https://...">
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="btn btn-g" style="flex:1;justify-content:center" onclick="useLogoUrl()">Use Link</button>
+            <button class="btn btn-danger" style="flex:1;justify-content:center" onclick="removeLogo()">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- BACKUP -->
+      <div class="tab" id="tab-backup">
+        <div class="card">
+          <h3>💾 Backup & Danger Zone</h3>
+          <div class="hint">Download a copy of all links and settings</div>
+          <div style="display:grid;gap:10px">
+            <button class="btn btn-g" style="justify-content:center" onclick="exportJSON()"><i class="fa-solid fa-download"></i> Export backup (JSON)</button>
+            <label class="btn btn-g" style="justify-content:center;cursor:pointer"><i class="fa-solid fa-upload"></i> Import backup
+              <input type="file" accept=".json" style="display:none" onchange="importJSON(event)">
+            </label>
+            <button class="btn btn-danger" style="justify-content:center" onclick="resetAll()"><i class="fa-solid fa-triangle-exclamation"></i> Reset everything</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PASS = '2007';
+const store = {
+  get(k,d){ try{ const v = localStorage.getItem('u9955_'+k); return v?JSON.parse(v):d }catch(_){ return d } },
+  set(k,v){ try{ localStorage.setItem('u9955_'+k, JSON.stringify(v)); }catch(_){ toast('Storage full ⚠️'); } }
+};
+const DEFAULT_LINKS = [
+  { platform:"TikTok",    user:"@u9955",        url:"https://tiktok.com/@u9955",      icon:"fa-brands fa-tiktok",    color:"#fe2c55", desc:"Short videos", hot:true },
+  { platform:"Instagram", user:"@u9955",        url:"https://instagram.com/u9955",    icon:"fa-brands fa-instagram", color:"#e1306c", desc:"Photos & Reels", hot:true },
+  { platform:"YouTube",   user:"U9955 Channel", url:"https://youtube.com/@u9955",     icon:"fa-brands fa-youtube",   color:"#ff0000", desc:"Videos & Streams", hot:true },
+  { platform:"Telegram",  user:"t.me/u9955",    url:"https://t.me/u9955",             icon:"fa-brands fa-telegram",  color:"#229ED9", desc:"Channel & Chat" },
+  { platform:"WhatsApp",  user:"+964...",       url:"https://wa.me/964000000000",     icon:"fa-brands fa-whatsapp",  color:"#25D366", desc:"Direct chat" },
+  { platform:"Discord",   user:"u9955",         url:"https://discord.gg/u9955",       icon:"fa-brands fa-discord",   color:"#5865F2", desc:"Join my server" },
+  { platform:"Twitch",    user:"u9955",         url:"https://twitch.tv/u9955",        icon:"fa-brands fa-twitch",    color:"#9146FF", desc:"Live streams" },
+  { platform:"Facebook",  user:"U9955",         url:"https://facebook.com/u9955",     icon:"fa-brands fa-facebook-f",color:"#1877F2", desc:"Follow me" },
+  { platform:"Snapchat",  user:"u9955",         url:"https://snapchat.com/add/u9955", icon:"fa-brands fa-snapchat",  color:"#c6a700", desc:"Snaps" },
+  { platform:"X (Twitter)",user:"@u9955",       url:"https://x.com/u9955",            icon:"fa-brands fa-x-twitter", color:"#111111", desc:"Posts & News" },
+  { platform:"Kick",      user:"u9955",         url:"https://kick.com/u9955",         icon:"fa-solid fa-bolt",       color:"#53FC18", desc:"Live streaming" },
+  { platform:"Spotify",   user:"U9955",         url:"https://open.spotify.com/",      icon:"fa-brands fa-spotify",   color:"#1DB954", desc:"Playlists" }
+];
+const PLATFORMS = [
+  {n:'TikTok',i:'fa-brands fa-tiktok',c:'#fe2c55'},{n:'Instagram',i:'fa-brands fa-instagram',c:'#e1306c'},
+  {n:'YouTube',i:'fa-brands fa-youtube',c:'#ff0000'},{n:'Telegram',i:'fa-brands fa-telegram',c:'#229ED9'},
+  {n:'WhatsApp',i:'fa-brands fa-whatsapp',c:'#25D366'},{n:'Discord',i:'fa-brands fa-discord',c:'#5865F2'},
+  {n:'Twitch',i:'fa-brands fa-twitch',c:'#9146FF'},{n:'Facebook',i:'fa-brands fa-facebook-f',c:'#1877F2'},
+  {n:'Snapchat',i:'fa-brands fa-snapchat',c:'#c6a700'},{n:'X (Twitter)',i:'fa-brands fa-x-twitter',c:'#111111'},
+  {n:'Kick',i:'fa-solid fa-bolt',c:'#53FC18'},{n:'Steam',i:'fa-brands fa-steam',c:'#66c0f4'},
+  {n:'PlayStation',i:'fa-brands fa-playstation',c:'#0070f3'},{n:'Xbox',i:'fa-brands fa-xbox',c:'#107C10'},{n:'Spotify',i:'fa-brands fa-spotify',c:'#1DB954'},
+  {n:'Reddit',i:'fa-brands fa-reddit-alien',c:'#ff4500'},{n:'Pinterest',i:'fa-brands fa-pinterest',c:'#e60023'},
+  {n:'LinkedIn',i:'fa-brands fa-linkedin-in',c:'#0a66c2'},{n:'GitHub',i:'fa-brands fa-github',c:'#333333'},
+  {n:'Website',i:'fa-solid fa-globe',c:'#6d28d9'},{n:'Email',i:'fa-solid fa-envelope',c:'#dc2626'},
+  {n:'Phone',i:'fa-solid fa-phone',c:'#16a34a'},{n:'Custom',i:'fa-solid fa-link',c:'#6d28d9'}
+];
+let LINKS = store.get('links', DEFAULT_LINKS);
+let PROFILE = store.get('profile', {name:'ahmad harith', username:'ahmad harith', bio:'all links here', avatarImg:'logo.gif'});
+
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove('show')},2200); }
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* auth + tabs */
+function authed(){ try{ return sessionStorage.getItem('u9955_admin')==='1'; }catch(_){ return false; } }
+function doLogin(){
+  const v = (document.getElementById('pass').value||'').trim();
+  if(v === PASS){ try{ sessionStorage.setItem('u9955_admin','1'); }catch(_){} showDash(); toast('Welcome admin ✅'); }
+  else toast('Wrong password ⚠️');
+}
+function logout(){ try{ sessionStorage.removeItem('u9955_admin'); }catch(_){} location.reload(); }
+function showDash(){
+  document.getElementById('loginView').style.display='none';
+  document.getElementById('dashView').style.display='block';
+  document.getElementById('fName').value = PROFILE.name||'';
+  document.getElementById('fBio').value = PROFILE.bio||'';
+  logoPreview(); renderLinks(); renderPreview(); renderStats();
+}
+function tab(name, el){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  document.getElementById('tab-'+name).classList.add('active');
+  document.querySelectorAll('.navbtn').forEach(function(b){b.classList.remove('active')});
+  if(el) el.classList.add('active');
+}
+
+/* profile + logo */
+function saveProfile(){
+  PROFILE.name = document.getElementById('fName').value;
+  PROFILE.username = PROFILE.name;
+  PROFILE.bio = document.getElementById('fBio').value;
+  store.set('profile', PROFILE); renderPreview(); toast('Profile saved ✅');
+}
+function logoPreview(){
+  const img = document.getElementById('logoPrev');
+  img.src = PROFILE.avatarImg || '';
+  img.style.display = PROFILE.avatarImg ? 'block' : 'none';
+  const u = document.getElementById('logoUrl');
+  if(u && document.activeElement !== u) u.value = (PROFILE.avatarImg||'').slice(0,5)==='data:' ? '' : (PROFILE.avatarImg||'');
+}
+function uploadLogo(e){
+  const f = e.target.files[0]; if(!f) return;
+  if(f.size > 2.5*1024*1024){ toast('File too big! Max 2.5MB ⚠️'); return; }
+  const r = new FileReader();
+  r.onload = function(){ PROFILE.avatarImg = r.result; store.set('profile',PROFILE); logoPreview(); renderPreview(); toast('Logo updated ✅'); };
+  r.readAsDataURL(f);
+}
+function useLogoUrl(){
+  const v = (document.getElementById('logoUrl').value||'').trim();
+  if(!v){ toast('Paste an image link first ⚠️'); return; }
+  PROFILE.avatarImg = v; store.set('profile',PROFILE); logoPreview(); renderPreview(); toast('Logo updated ✅');
+}
+function removeLogo(){ PROFILE.avatarImg=''; store.set('profile',PROFILE); logoPreview(); renderPreview(); toast('Logo removed'); }
+
+/* links */
+function persist(){ store.set('links', LINKS); renderPreview(); renderStats(); }
+function platOptions(sel){ return PLATFORMS.map(function(p){ return '<option value="'+p.n+'"'+(p.n===sel?' selected':'')+'>'+p.n+'</option>'; }).join(''); }
+const ICON_PRESETS = ['fa-brands fa-telegram','fa-brands fa-discord','fa-brands fa-youtube','fa-brands fa-github','fa-brands fa-spotify','fa-brands fa-steam','fa-brands fa-chrome','fa-brands fa-whatsapp','fa-brands fa-tiktok','fa-brands fa-instagram','fa-brands fa-twitch','fa-brands fa-x-twitter','fa-brands fa-facebook-f','fa-brands fa-snapchat','fa-brands fa-reddit-alien','fa-solid fa-terminal','fa-solid fa-code','fa-solid fa-palette','fa-solid fa-pen-nib','fa-solid fa-film','fa-solid fa-gamepad','fa-brands fa-steam','fa-brands fa-playstation','fa-brands fa-xbox','fa-solid fa-headset','fa-solid fa-trophy','fa-solid fa-music','fa-solid fa-camera','fa-solid fa-cloud','fa-solid fa-rocket','fa-solid fa-globe','fa-solid fa-envelope','fa-solid fa-bolt','fa-solid fa-star','fa-solid fa-heart','fa-solid fa-ghost','fa-solid fa-link'];
+const COLOR_PRESETS = ['#22d3ee','#a855f7','#6366f1','#ec4899','#10b981','#f59e0b','#0ea5e9','#ef4444','#6d28d9','#53FC18','#111111','#ffffff'];
+function iconGrid(i,cur){ return ICON_PRESETS.map(function(c,k){ return '<button class="icon-pick'+(c===cur?' sel':'')+'" onclick="setIcon('+i+','+k+')" title="'+c+'"><i class="'+c+'"></i></button>'; }).join(''); }
+function swatches(i,cur){ return COLOR_PRESETS.map(function(c){ return '<button class="sw'+(String(cur||'').toLowerCase()===c?' sel':'')+'" style="background:'+c+'" onclick="setColor('+i+',\''+c+'\')" title="'+c+'"></button>'; }).join(''); }
+function setIcon(i,k){ LINKS[i].icon = ICON_PRESETS[k]; persist(); renderLinks(); }
+function setColor(i,c){ LINKS[i].color = c; persist(); renderLinks(); }
+function renderLinks(){
+  const box = document.getElementById('linkList');
+  box.innerHTML = LINKS.map(function(l,i){
+    return '<div class="linkrow">'
+    + '<select onchange="setPlat('+i+',this.value)">'+platOptions(l.platform)+'</select>'
+    + '<div class="grid">'
+    + '<input type="text" placeholder="Name" value="'+esc(l.platform)+'" oninput="field('+i+',\'platform\',this.value)">'
+    + '<input type="text" placeholder="@user" value="'+esc(l.user)+'" oninput="field('+i+',\'user\',this.value)">'
+    + '<input class="full" type="url" placeholder="https://..." value="'+esc(l.url)+'" oninput="field('+i+',\'url\',this.value)">'
+    + '<input class="full" type="text" placeholder="Description" value="'+esc(l.desc||'')+'" oninput="field('+i+',\'desc\',this.value)">'
+    + '</div>'
+    + '<label class="lbl">Icon — FontAwesome class (or pick below)</label>'
+    + '<input type="text" placeholder="fa-brands fa-telegram" value="'+esc(l.icon||'')+'" oninput="field('+i+',\'icon\',this.value)">'
+    + '<div class="icon-grid">'+iconGrid(i,l.icon)+'</div>'
+    + '<label class="lbl">Glow & Accent Color</label>'
+    + '<div class="swatches">'+swatches(i,l.color)+'</div>'
+    + '<div class="grid" style="align-items:center;margin-top:8px">'
+    + '<input type="color" value="'+esc(l.color||'#6d28d9')+'" oninput="field('+i+',\'color\',this.value)">'
+    + '<label class="checkline"><input type="checkbox"'+(l.hot?' checked':'')+' onchange="field('+i+',\'hot\',this.checked)"> HOT badge</label>'
+    + '</div>'
+    + '<div class="rowbtns"><button class="mini" onclick="move('+i+',-1)">↑ Up</button>'
+    + '<button class="mini" onclick="move('+i+',1)">↓ Down</button>'
+    + '<button class="mini danger" onclick="del('+i+')">Delete ✕</button></div></div>';
+  }).join('') || '<p style="color:var(--muted);font-size:14px">No links yet — press Add New Link</p>';
+}
+function field(i,f,v){ LINKS[i][f]=v; persist(); }
+function setPlat(i,name){
+  const p = PLATFORMS.find(function(x){return x.n===name;}) || PLATFORMS[PLATFORMS.length-1];
+  LINKS[i].platform=p.n; LINKS[i].icon=p.i; LINKS[i].color=p.c;
+  persist(); renderLinks();
+}
+function addLink(){
+  LINKS.push({platform:'Custom',user:'@user',url:'https://',icon:'fa-solid fa-link',color:'#6d28d9',desc:''});
+  persist(); renderLinks(); window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function del(i){ LINKS.splice(i,1); persist(); renderLinks(); toast('Link deleted'); }
+function move(i,d){ const j=i+d; if(j<0||j>=LINKS.length)return; const t=LINKS[i]; LINKS[i]=LINKS[j]; LINKS[j]=t; persist(); renderLinks(); }
+function renderStats(){
+  document.getElementById('stLinks').textContent = LINKS.length;
+  document.getElementById('stHot').textContent = LINKS.filter(function(l){return l.hot}).length;
+  const v = store.get('views',0);
+  document.getElementById('stViews').textContent = v>1000 ? (v/1000).toFixed(1)+'k' : v;
+}
+function renderPreview(){
+  document.getElementById('pvName').textContent = PROFILE.name || 'ahmad harith';
+  document.getElementById('pvBio').textContent = PROFILE.bio || '';
+  const av = document.getElementById('pvAvatar');
+  if(PROFILE.avatarImg){ av.innerHTML = '<img src="'+PROFILE.avatarImg+'" alt="">'; }
+  else { av.textContent = (PROFILE.name||'A').slice(0,2).toUpperCase(); }
+  document.getElementById('pvLinks').innerHTML = LINKS.map(function(l){
+    return '<div class="pl"><div class="ic" style="background:'+esc(l.color||'#6d28d9')+'"><i class="'+esc(l.icon||'fa-solid fa-link')+'"></i></div>'
+    + '<div><b>'+esc(l.platform)+'</b><small>'+esc(l.user||'')+'</small></div></div>';
+  }).join('');
+}
+
+/* backup */
+function exportJSON(){
+  const data = JSON.stringify({profile:PROFILE, links:LINKS}, null, 2);
+  const b = new Blob([data], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(b); a.download = 'site-backup.json'; a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
+  toast('Backup downloaded ✅');
+}
+function importJSON(e){
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = function(){
+    try{
+      const d = JSON.parse(r.result);
+      if(d.profile) PROFILE = d.profile;
+      if(Array.isArray(d.links)) LINKS = d.links;
+      store.set('profile', PROFILE); store.set('links', LINKS);
+      document.getElementById('fName').value = PROFILE.name||'';
+      document.getElementById('fBio').value = PROFILE.bio||'';
+      logoPreview(); renderLinks(); renderPreview(); renderStats();
+      toast('Backup restored ✅');
+    }catch(_){ toast('Invalid file ⚠️'); }
+  };
+  r.readAsText(f);
+}
+function resetAll(){ if(confirm('Reset everything to defaults?')){ try{localStorage.clear();}catch(_){} location.reload(); } }
+
+if(authed()) showDash();
+</script>
+</body>
+</html>

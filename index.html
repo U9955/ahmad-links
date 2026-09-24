@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>U9955 | Space Links</title>
+<!--
+  ============================================================
+  🚀 U9955 SPACE LINKS - HOW TO EDIT (كيف تعدل موقعك)
+  ============================================================
+  1) لتغيير الاسم / البايو : ابحث عن SITE_CONFIG بالأسفل
+  2) لتغيير أي رابط : فقط بدّل خانة url
+  3) لتغيير لون : بدّل color أو استخدم زر ⚙️ داخل الموقع
+  4) لتغيير خط : من زر ⚙️ اختر Font
+  كل تعديل من الزر يُحفظ تلقائياً في المتصفح (localStorage)
+  ============================================================
+-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Cairo:wght@400;600;700;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fdfbff;
+  --bg2:#f1eaff;
+  --accent:#6d28d9;
+  --accent2:#8b5cf6;
+  --accent3:#dc2626;
+  --text:#231942;
+  --muted:#7a7590;
+  --card:rgba(255,255,255,.7);
+  --border:rgba(109,40,217,.22);
+  --font-head:'Orbitron',sans-serif;
+  --font-body:'Space Grotesk',sans-serif;
+  --glow:0 12px 40px rgba(109,40,217,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(1000px 620px at 50% -10%, rgba(109,40,217,.22), transparent 62%),
+    radial-gradient(700px 420px at 12% 22%, rgba(139,92,246,.16), transparent 60%),
+    radial-gradient(600px 380px at 88% 30%, rgba(220,38,38,.10), transparent 60%),
+    radial-gradient(900px 600px at 50% 115%, rgba(109,40,217,.14), transparent 60%),
+    linear-gradient(180deg,#ffffff 0%, #faf7ff 35%, #f1eaff 68%, #ffffff 100%);
+}
+#stars{position:fixed;inset:0;z-index:1;pointer-events:none}
+.nebula{position:fixed;border-radius:50%;filter:blur(110px);z-index:1;pointer-events:none;opacity:.55;animation:nebFloat 14s ease-in-out infinite alternate}
+.neb1{width:560px;height:560px;background:#c4b5fd;top:-170px;right:-120px;opacity:.6}
+.neb2{display:none}
+.neb3{width:380px;height:380px;background:#fecaca;bottom:-120px;right:10%;animation-delay:-8s;opacity:.5}
+@keyframes nebFloat{from{transform:translate(0,0) scale(1)}to{transform:translate(40px,50px) scale(1.15)}}
+
+/* ===== SATURN (hidden - removed on request) ===== */
+.saturn-scene{display:none}
+.saturn{position:relative;width:320px;height:320px;margin-top:20px;animation:satFloat 7s ease-in-out infinite}
+@keyframes satFloat{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(22px) rotate(-8deg)}}
+.planet{
+  position:absolute;inset:60px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 26%, #ffffff 0%, #f5f3ff 10%, #ddd6fe 22%, #a78bfa 38%, #7c3aed 55%, #4c1d95 74%, #2a0a5e 100%);
+  box-shadow:
+    inset -28px -24px 55px rgba(42,10,94,.55),
+    inset 14px 14px 36px rgba(255,255,255,.7),
+    0 0 50px rgba(109,40,217,.45),
+    0 0 120px rgba(109,40,217,.22),
+    0 0 90px rgba(220,38,38,.14);
+  overflow:hidden;
+}
+.planet::after{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  background:repeating-linear-gradient(178deg, transparent 0 14px, rgba(255,255,255,.07) 14px 16px, transparent 16px 30px, rgba(0,0,0,.12) 30px 32px);
+}
+.planet-shadow{position:absolute;inset:60px;border-radius:50%;background:linear-gradient(180deg, transparent 48%, rgba(2,0,20,.55) 72%);z-index:3}
+.rings{position:absolute;top:50%;left:50%;width:560px;height:160px;transform:translate(-50%,-50%) rotate(-18deg);z-index:4;pointer-events:none}
+.ring{position:absolute;inset:0;border-radius:50%;border:14px solid transparent;
+  border-top-color:rgba(109,40,217,.85);border-bottom-color:rgba(109,40,217,.25);
+  border-left-color:rgba(139,92,246,.5);border-right-color:rgba(220,38,38,.55);
+  filter:drop-shadow(0 0 12px rgba(109,40,217,.45));
+}
+.ring.r2{inset:18px;border-width:10px;opacity:.7;transform:rotate(1deg)}
+.ring.r3{inset:36px;border-width:6px;opacity:.5}
+.ring-front{position:absolute;top:50%;left:50%;width:560px;height:160px;transform:translate(-50%,-50%) rotate(-18deg);z-index:5;pointer-events:none;border-radius:50%;
+  border:14px solid transparent;border-bottom-color:rgba(255,255,255,.55);border-top-color:transparent;filter:blur(.3px);opacity:.6}
+.moon{position:absolute;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,#c4b5fd 60%,#4c1d95);box-shadow:0 0 18px #c4b5fd;top:80px;right:40px;animation:moonOrbit 12s linear infinite}
+@keyframes moonOrbit{0%{transform:translate(0,0)}50%{transform:translate(-60px,60px)}100%{transform:translate(0,0)}}
+.shoot{position:fixed;width:160px;height:2px;background:linear-gradient(90deg,#6d28d9,transparent);z-index:2;pointer-events:none;opacity:0;transform:rotate(-25deg)}
+
+/* ===== LOADER ===== */
+#loader{position:fixed;inset:0;background:#050014;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .7s, visibility .7s}
+#loader.hide{opacity:0;visibility:hidden}
+.load-planet{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#e9d5ff,#8b5cf6 55%,#2e1065);box-shadow:0 0 40px #a855f7;animation:spinLoad 1.2s linear infinite;position:relative}
+.load-planet::after{content:'';position:absolute;top:50%;left:50%;width:130px;height:34px;border:4px solid rgba(34,211,238,.8);border-radius:50%;transform:translate(-50%,-50%) rotate(-18deg)}
+@keyframes spinLoad{to{transform:rotate(360deg)}}
+.load-text{font-family:var(--font-head);letter-spacing:3px;font-size:13px;color:var(--muted)}
+.load-bar{width:200px;height:4px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+.load-bar span{display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;animation:loadSlide 1s infinite alternate}
+@keyframes loadSlide{to{transform:translateX(300%)}}
+
+/* ===== LAYOUT ===== */
+.wrap{position:relative;z-index:10;max-width:700px;margin:0 auto;padding:42px 18px 60px}
+@media(max-width:600px){.wrap{padding-top:28px}.saturn{width:240px;height:240px}.rings,.ring-front{width:380px;height:110px}}
+
+.card{
+  background:transparent;
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+  border:none;
+  border-radius:28px;
+  padding:34px 26px 26px;
+  text-align:center;
+  box-shadow:none;
+  position:relative;overflow:visible;
+  transform-style:preserve-3d;
+}
+.card::before{display:none}
+.card::after{display:none}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#6d28d9;background:rgba(255,255,255,.8);backdrop-filter:blur(10px);border:1px solid rgba(109,40,217,.3);padding:7px 14px;border-radius:99px;margin-bottom:16px;box-shadow:0 4px 16px rgba(109,40,217,.1)}
+.dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 10px #22c55e;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.3}}
+.avatar{width:122px;height:122px;margin:0 auto 16px;border-radius:34px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:900;font-size:42px;background:linear-gradient(135deg,#6d28d9,#8b5cf6 45%,#dc2626);padding:3px;position:relative;box-shadow:0 14px 34px rgba(109,40,217,.35)}
+.avatar-inner{width:100%;height:100%;border-radius:31px;background:linear-gradient(135deg,#ffffff,#f1eaff);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;color:#3b1470}
+.avatar-inner::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 20%,rgba(220,38,38,.12),transparent 55%);pointer-events:none}
+.avatar img{width:100%;height:100%;object-fit:cover;border-radius:29px;position:relative;z-index:1}
+h1{font-family:var(--font-head);font-size:36px;font-weight:900;letter-spacing:2px;background:linear-gradient(90deg,#3b1470,#6d28d9,#dc2626,#3b1470);background-size:300% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite}
+@keyframes shine{to{background-position:300% center}}
+.username{color:#6d28d9;font-weight:700;letter-spacing:1px;margin-top:4px;font-size:15px;text-shadow:none}
+.bio{color:#5b5675;font-size:15px;line-height:1.7;margin:14px auto 0;max-width:480px;text-shadow:none}
+.stats{display:flex;gap:10px;justify-content:center;margin:20px 0 6px;flex-wrap:wrap}
+.stat{flex:1;min-width:120px;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(109,40,217,.14);border-radius:16px;padding:12px 8px;color:#231942;box-shadow:0 8px 24px rgba(109,40,217,.08)}
+.stat b{font-family:var(--font-head);font-size:20px;display:block}
+.stat span{font-size:12px;color:var(--muted);letter-spacing:.5px}
+.actions{display:flex;gap:10px;justify-content:center;margin:16px 0 22px;flex-wrap:wrap}
+.btn{border:none;cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:14px;padding:11px 20px;border-radius:14px;display:inline-flex;align-items:center;gap:8px;transition:.25s;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,#6d28d9,#dc2626);color:#fff;box-shadow:0 8px 24px rgba(109,40,217,.4)}
+.btn-primary:hover{box-shadow:0 12px 32px rgba(220,38,38,.35)}
+.btn-ghost{background:rgba(255,255,255,.85);color:#231942;border:1px solid rgba(109,40,217,.18);box-shadow:0 4px 14px rgba(109,40,217,.08)}
+.btn-ghost:hover{background:#ffffff}
+.search{position:relative;margin:0 0 18px}
+.search input{width:100%;background:rgba(255,255,255,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(109,40,217,.18);color:#231942;padding:14px 16px 14px 46px;border-radius:16px;font-size:15px;font-family:var(--font-body);outline:none;transition:.25s;box-shadow:0 6px 20px rgba(109,40,217,.08)}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(109,40,217,.18)}
+.search i{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.links{display:grid;gap:12px;text-align:left}
+.link{
+  display:flex;align-items:center;gap:14px;
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(109,40,217,.12);
+  border-radius:18px;padding:14px 16px;
+  text-decoration:none;color:#231942;
+  position:relative;overflow:hidden;transition:.28s;
+  box-shadow:0 8px 26px rgba(109,40,217,.1);
+}
+.link::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c,#6d28d9);box-shadow:0 0 14px var(--c,#6d28d9)}
+.link:hover{background:#ffffff;border-color:var(--c);box-shadow:0 12px 32px -8px var(--c)}
+.icon{width:50px;height:50px;min-width:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;background:var(--c);box-shadow:0 6px 18px -4px var(--c)}
+.link-info{flex:1;min-width:0}
+.link-info b{font-size:16px;display:flex;align-items:center;gap:8px}
+.link-info small{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;margin-top:2px}
+.badge{font-size:10px;background:linear-gradient(90deg,var(--accent),var(--accent3));padding:3px 8px;border-radius:99px;letter-spacing:.5px}
+.go{width:38px;height:38px;min-width:38px;border-radius:12px;background:rgba(109,40,217,.08);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:.25s}
+.link:hover .go{background:var(--c);color:#fff}
+.copy{border:none;background:rgba(109,40,217,.08);color:var(--muted);width:34px;height:34px;border-radius:10px;cursor:pointer;transition:.2s}
+.copy:hover{color:#231942;background:rgba(109,40,217,.16)}
+.footer{margin-top:22px;color:var(--muted);font-size:13px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.footer .planet-mini{width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,#c4b5fd 45%,#6d28d9 75%);box-shadow:0 0 12px rgba(109,40,217,.5);display:inline-block;position:relative}
+.vcard{margin-top:16px;background:rgba(255,255,255,.7);border:1px dashed rgba(109,40,217,.3);border-radius:16px;padding:14px;font-size:13px;color:var(--muted);line-height:1.8}
+.vcard code{color:var(--accent3);font-family:monospace}
+
+/* floating buttons */
+.fab{position:fixed;bottom:20px;right:20px;z-index:50;display:flex;flex-direction:column;gap:10px}
+.fab button{width:52px;height:52px;border-radius:16px;border:1px solid rgba(109,40,217,.2);background:rgba(255,255,255,.9);backdrop-filter:blur(12px);color:#3b1470;font-size:20px;cursor:pointer;transition:.25s;box-shadow:0 8px 24px rgba(109,40,217,.15)}
+.fab button:hover{border-color:var(--accent)}
+/* music button - bottom left, no movement, color change only */
+#musicBtn{position:fixed;bottom:20px;left:20px;z-index:50;width:54px;height:54px;border-radius:50%;border:1px solid rgba(109,40,217,.25);background:rgba(255,255,255,.92);backdrop-filter:blur(12px);color:#3b1470;font-size:20px;cursor:pointer;box-shadow:0 8px 24px rgba(109,40,217,.18);display:flex;align-items:center;justify-content:center}
+#musicBtn:hover{border-color:var(--accent3)}
+#musicBtn.playing{color:#fff;background:linear-gradient(135deg,#6d28d9,#dc2626);border-color:transparent}
+#musicBtn.playing i{animation:spinDisc 3s linear infinite;display:inline-block}
+@keyframes spinDisc{to{transform:rotate(360deg)}}
+#bgMusic{display:none}
+#panel{position:fixed;top:0;right:-380px;width:360px;max-width:92vw;height:100vh;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-left:1px solid var(--border);z-index:60;transition:.35s;padding:24px;overflow-y:auto;color:#231942;box-shadow:-20px 0 60px rgba(109,40,217,.12)}
+#panel.open{right:0}
+#panel h2{font-family:var(--font-head);font-size:18px;margin-bottom:4px}
+#panel p{color:var(--muted);font-size:13px;margin-bottom:16px}
+.opt-label{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:18px 0 10px;display:block}
+.themes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.theme{border:2px solid transparent;border-radius:14px;padding:12px;cursor:pointer;color:#fff;font-weight:600;font-size:13px;transition:.2s}
+.theme.active{border-color:#6d28d9}
+.edit-row{display:flex;gap:8px;margin-bottom:8px}
+.edit-row input{flex:1;background:#f5f3ff;border:1px solid rgba(109,40,217,.18);color:#231942;border-radius:10px;padding:9px 10px;font-size:13px;outline:none;min-width:0}
+.edit-row input:focus{border-color:var(--accent)}
+select{width:100%;background:#f5f3ff;color:#231942;border:1px solid rgba(109,40,217,.2);border-radius:12px;padding:11px;font-size:14px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:#231942;color:#fff;padding:12px 22px;border-radius:99px;font-weight:600;font-size:14px;z-index:99;transition:.35s;box-shadow:0 10px 30px rgba(109,40,217,.3)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+#cursorGlow{position:fixed;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(109,40,217,.12),transparent 70%);pointer-events:none;z-index:5;transform:translate(-50%,-50%)}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+<div class="nebula neb1"></div>
+<div class="nebula neb2"></div>
+<div class="nebula neb3"></div>
+<div id="cursorGlow"></div>
+
+<!-- SATURN -->
+<div class="saturn-scene">
+  <div class="saturn">
+    <div class="rings"><div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div></div>
+    <div class="planet"></div>
+    <div class="planet-shadow"></div>
+    <div class="ring-front"></div>
+    <div class="moon"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="card" id="mainCard">
+    <div class="status"><span class="dot"></span> <span id="statusText">Online</span></div>
+
+    <div class="avatar"><div class="avatar-inner" id="avatarBox"><span id="avatarText">AH</span></div></div>
+    <div class="username" id="siteUser">ahmad harith</div>
+    <p class="bio" id="siteBio">all links here</p>
+
+    <div class="actions">
+      <button class="btn btn-primary" onclick="shareSite()"><i class="fa-solid fa-share-nodes"></i> Share</button>
+      <button class="btn btn-ghost" onclick="copyProfile()"><i class="fa-regular fa-copy"></i> Copy Link</button>
+    </div>
+
+    <div class="search"><i class="fa-solid fa-magnifying-glass"></i><input id="searchInput" placeholder="Search" oninput="filterLinks(this.value)"></div>
+
+    <div class="links" id="linksBox"></div>
+
+    <div class="footer">All rights reserved <span id="adminEntry" onclick="location.href='admin.html'" title="Admin">2026</span></div>
+  </div>
+</div>
+
+<div class="fab">
+  <button onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Top">🚀</button>
+</div>
+
+<button id="musicBtn" title="Music" onclick="toggleMusic()"><i class="fa-solid fa-music"></i></button>
+<audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+
+<div class="toast" id="toast">Copied! ✅</div>
+
+<script>
+/* =====================================================
+   ★★★ EDIT YOUR LINKS HERE ★★★ / عدّل روابطك هنا
+===================================================== */
+const SITE_CONFIG = {
+  name: "ahmad harith",
+  username: "ahmad harith",
+  bio: "all links here",
+  avatarText: "U9",
+  avatarImg: "logo.gif",
+  links: [
+    { platform:"TikTok",    user:"@u9955",          url:"https://tiktok.com/@u9955",      icon:"fa-brands fa-tiktok",    color:"#fe2c55", desc:"Short videos • فيديوهات قصيرة", hot:true },
+    { platform:"Instagram", user:"@u9955",          url:"https://instagram.com/u9955",    icon:"fa-brands fa-instagram", color:"#e1306c", desc:"Photos & Reels • صور وريلز", hot:true },
+    { platform:"YouTube",   user:"U9955 Channel",   url:"https://youtube.com/@u9955",     icon:"fa-brands fa-youtube",   color:"#ff0000", desc:"Videos & Streams • فيديوهات", hot:true },
+    { platform:"Telegram",  user:"t.me/u9955",      url:"https://t.me/u9955",             icon:"fa-brands fa-telegram",  color:"#229ED9", desc:"Channel & Chat • قناة" },
+    { platform:"WhatsApp",  user:"+964...",         url:"https://wa.me/964000000000",     icon:"fa-brands fa-whatsapp",  color:"#25D366", desc:"Direct chat • واتساب" },
+    { platform:"Discord",   user:"u9955",           url:"https://discord.gg/u9955",       icon:"fa-brands fa-discord",   color:"#5865F2", desc:"Join my server • سيرفر" },
+    { platform:"Twitch",    user:"u9955",           url:"https://twitch.tv/u9955",        icon:"fa-brands fa-twitch",    color:"#9146FF", desc:"Live streams • بث مباشر" },
+    { platform:"Facebook",  user:"U9955",           url:"https://facebook.com/u9955",     icon:"fa-brands fa-facebook-f",color:"#1877F2", desc:"Follow me • تابعني" },
+    { platform:"Snapchat",  user:"u9955",           url:"https://snapchat.com/add/u9955", icon:"fa-brands fa-snapchat",  color:"#c6a700", desc:"Snaps • سناب" },
+    { platform:"X (Twitter)",user:"@u9955",         url:"https://x.com/u9955",            icon:"fa-brands fa-x-twitter", color:"#e7e9ea", desc:"Posts & News • اخبار" },
+    { platform:"Kick",      user:"u9955",           url:"https://kick.com/u9955",         icon:"fa-solid fa-bolt",       color:"#53FC18", desc:"Live streaming • كيك" },
+    { platform:"Spotify",   user:"U9955",           url:"https://open.spotify.com/",      icon:"fa-brands fa-spotify",   color:"#1DB954", desc:"Playlists • اغاني" },
+  ]
+};
+/* ============ END EDIT ============ */
+
+const store = {
+  get(k,d){ try{ const v = localStorage.getItem('u9955_'+k); return v?JSON.parse(v):d }catch{ return d } },
+  set(k,v){ localStorage.setItem('u9955_'+k, JSON.stringify(v)) }
+};
+
+let LINKS = store.get('links', SITE_CONFIG.links);
+let PROFILE = store.get('profile', {name:SITE_CONFIG.name, username:SITE_CONFIG.username, bio:SITE_CONFIG.bio, avatarImg:SITE_CONFIG.avatarImg});
+// ترحيل الاسم القديم المحفوظ إلى الاسم الجديد
+if(PROFILE.name === 'U9955'){ PROFILE.name = SITE_CONFIG.name; store.set('profile', PROFILE); }
+if(PROFILE.username === '@u9955 • Digital Creator'){ PROFILE.username = SITE_CONFIG.username; store.set('profile', PROFILE); }
+if(PROFILE.bio && (PROFILE.bio.includes('Welcome to my universe') || PROFILE.bio === 'all links by ahmad here')){ PROFILE.bio = SITE_CONFIG.bio; store.set('profile', PROFILE); }
+// لو ما عنده صورة محفوظة، جرّب logo.gif تلقائياً
+if(!PROFILE.avatarImg) PROFILE.avatarImg = "logo.gif";
+
+function avatarFallback(){
+  const box = document.getElementById('avatarBox');
+  box.innerHTML = `<span id="avatarText">${(PROFILE.name||'U').slice(0,2).toUpperCase()}</span>`;
+}
+function applyProfile(){
+  if(document.getElementById('siteName')) document.getElementById('siteName').textContent = PROFILE.name;
+  document.getElementById('siteUser').textContent = PROFILE.username;
+  document.getElementById('siteBio').innerHTML = PROFILE.bio;
+  const box = document.getElementById('avatarBox');
+  if(PROFILE.avatarImg){
+    box.innerHTML = `<img src="${PROFILE.avatarImg}" alt="logo" onerror="avatarFallback()" style="width:100%;height:100%;object-fit:cover;border-radius:26px;position:relative;z-index:1">`;
+  } else {
+    box.innerHTML = `<span id="avatarText">${(PROFILE.name||'U').slice(0,2).toUpperCase()}</span>`;
+  }
+  document.getElementById('editName') && (document.getElementById('editName').value = PROFILE.name);
+  document.getElementById('editUser') && (document.getElementById('editUser').value = PROFILE.username);
+  document.getElementById('editBio') && (document.getElementById('editBio').value = (PROFILE.bio||'').replace(/<br>/g,' '));
+  if(document.getElementById('editAvatarUrl')) document.getElementById('editAvatarUrl').value = PROFILE.avatarImg||'';
+  document.title = PROFILE.name + " | Space Links";
+}
+function renderLinks(filter=''){
+  const box = document.getElementById('linksBox');
+  const q = filter.toLowerCase();
+  const list = LINKS.filter(l => (l.platform+l.user).toLowerCase().includes(q));
+  box.innerHTML = list.map((l,i)=>`
+    <a class="link" style="--c:${l.color}" href="${l.url}" target="_blank" rel="noopener">
+      <div class="icon"><i class="${l.icon}"></i></div>
+      <div class="link-info"><b>${l.platform} ${l.hot?'<span class="badge">HOT</span>':''}</b><small>${l.user} • ${l.desc||''}</small></div>
+      <button class="copy" onclick="event.preventDefault();copyLink('${l.url}','${l.platform}')"><i class="fa-regular fa-copy"></i></button>
+      <div class="go"><i class="fa-solid fa-arrow-right"></i></div>
+    </a>`).join('') || `<div style="text-align:center;color:var(--muted);padding:20px">No results 🪐</div>`;
+  document.getElementById('statLinks') && (document.getElementById('statLinks').textContent = LINKS.length);
+  renderEditor();
+}
+function renderEditor(){
+  const e = document.getElementById('editLinks');
+  if(!e) return;
+  e.innerHTML = LINKS.map((l,i)=>`
+    <div class="edit-row">
+      <input value="${l.platform}" disabled style="max-width:90px;opacity:.7">
+      <input value="${l.url}" oninput="updateLink(${i},this.value)" placeholder="https://...">
+    </div>`).join('');
+}
+function updateLink(i,v){ LINKS[i].url=v; store.set('links',LINKS); renderLinks(document.getElementById('searchInput').value); }
+function filterLinks(v){ renderLinks(v); }
+function saveProfile(){
+  PROFILE = { name:editName.value||'U9955', username:editUser.value||'@u9955', bio:editBio.value||'', avatarImg:PROFILE.avatarImg||'' };
+  store.set('profile',PROFILE); applyProfile(); toast('Profile saved ✅');
+}
+function uploadLogo(e){
+  const f = e.target.files[0]; if(!f) return;
+  if(f.size > 2.5*1024*1024){ toast('File too big! Max 2.5MB ⚠️'); return; }
+  const r = new FileReader();
+  r.onload = function(){ PROFILE.avatarImg = r.result; store.set('profile',PROFILE); applyProfile(); toast('Logo / GIF added ✅'); };
+  r.readAsDataURL(f);
+}
+function saveAvatarUrl(){
+  const v = document.getElementById('editAvatarUrl').value.trim();
+  PROFILE.avatarImg = v; store.set('profile',PROFILE); applyProfile(); toast(v?'Logo link saved ✅':'Logo removed');
+}
+function removeLogo(){ PROFILE.avatarImg=''; store.set('profile',PROFILE); applyProfile(); toast('Logo removed'); }
+function resetAll(){ localStorage.clear(); location.reload(); }
+
+/* themes + fonts - GIF theme: white + hair purple + eye red */
+const THEMES = {
+  neon:{a:'#6d28d9',b:'#8b5cf6',c:'#dc2626',bg:'#fdfbff',border:'rgba(109,40,217,.22)'},
+  cyber:{a:'#6d28d9',b:'#a78bfa',c:'#dc2626',bg:'#faf7ff',border:'rgba(109,40,217,.22)'},
+  mars:{a:'#991b1b',b:'#dc2626',c:'#6d28d9',bg:'#fff7f7',border:'rgba(220,38,38,.25)'},
+  matrix:{a:'#4c1d95',b:'#7c3aed',c:'#b91c1c',bg:'#f8f5ff',border:'rgba(76,29,149,.22)'},
+};
+function setTheme(name,el){
+  const t=THEMES[name]; if(!t) return;
+  document.documentElement.style.setProperty('--accent',t.a);
+  document.documentElement.style.setProperty('--accent2',t.b);
+  document.documentElement.style.setProperty('--accent3',t.c);
+  document.documentElement.style.setProperty('--border',t.border);
+  document.body.style.background=t.bg;
+  document.querySelectorAll('.theme').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  store.set('theme',name); toast('Theme: '+name+' 🎨');
+}
+const FONTS = {
+  orbitron:["'Orbitron',sans-serif","'Space Grotesk',sans-serif"],
+  poppins:["'Poppins',sans-serif","'Poppins',sans-serif"],
+  cairo:["'Cairo',sans-serif","'Cairo',sans-serif"],
+  inter:["'Inter',sans-serif","'Inter',sans-serif"],
+};
+function setFont(name){
+  const f=FONTS[name]||FONTS.orbitron;
+  document.documentElement.style.setProperty('--font-head',f[0]);
+  document.documentElement.style.setProperty('--font-body',f[1]);
+  store.set('font',name);
+}
+
+/* actions */
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
+function copyLink(url,plat){ navigator.clipboard.writeText(url); toast(plat+' link copied ✅'); }
+function copyProfile(){ navigator.clipboard.writeText(location.href); toast('Profile link copied ✅'); }
+function shareSite(){ if(navigator.share){navigator.share({title:PROFILE.name, text:'Follow '+PROFILE.name+' 🪐', url:location.href})} else{copyProfile()} }
+function togglePanel(force){
+  const p=document.getElementById('panel');
+  const open = force!==undefined?force:!p.classList.contains('open');
+  p.classList.toggle('open',open);
+}
+
+/* music - local file: music.mp3 (loop) | الزر = كتم / تشغيل الصوت */
+let musicOn = false;
+function musicEl(){ return document.getElementById('bgMusic'); }
+function paintMusicBtn(){
+  const btn = document.getElementById('musicBtn');
+  if(!btn) return;
+  const a = musicEl();
+  const muted = a && a.muted;
+  if(musicOn && !muted){ btn.classList.add('playing'); btn.innerHTML = '<i class="fa-solid fa-compact-disc"></i>'; }
+  else if(musicOn && muted){ btn.classList.remove('playing'); btn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>'; }
+  else { btn.classList.remove('playing'); btn.innerHTML = '<i class="fa-solid fa-music"></i>'; }
+}
+function tryStartMusic(){
+  const a = musicEl(); if(!a) return;
+  if(a.paused){
+    try{ a.muted = false; }catch(_){}
+    const p = a.play();
+    if(p && p.catch) p.catch(function(){});
+  } else if(a.muted){
+    try{ a.muted = false; }catch(_){}
+  }
+}
+function toggleMusic(){
+  const a = musicEl(); if(!a) return;
+  if(a.paused){ tryStartMusic(); toast('Sound on 🔊'); }
+  else {
+    a.muted = !a.muted;
+    paintMusicBtn();
+    toast(a.muted ? 'Muted 🔇' : 'Sound on 🔊');
+  }
+}
+// تشغيل فوري عند الدخول + أول تفاعل (المتصفح قد يمنع الصوت قبل أول لمسة/زر)
+tryStartMusic();
+addEventListener('pointerdown', tryStartMusic, {passive:true});
+addEventListener('keydown', tryStartMusic);
+addEventListener('touchend', tryStartMusic, {passive:true});
+(function(){
+  const a = musicEl(); if(!a) return;
+  a.volume = 0.7;
+  try{ a.muted = false; }catch(_){}
+  a.addEventListener('play', function(){ musicOn = true; paintMusicBtn(); });
+  a.addEventListener('pause', function(){ musicOn = false; paintMusicBtn(); });
+  a.addEventListener('volumechange', paintMusicBtn);
+  a.addEventListener('error', function(){ musicOn = false; paintMusicBtn(); });
+})();
+
+/* stars */
+const cv=document.getElementById('stars'),ctx=cv.getContext('2d');
+let stars=[];
+function initStars(){
+  cv.width=innerWidth;cv.height=innerHeight;
+  stars=Array.from({length:240},()=>{
+    const roll = Math.random();
+    const kind = roll<0.14 ? 'red' : roll<0.30 ? 'petal' : roll<0.42 ? 'white' : 'purple';
+    return {x:Math.random()*cv.width,y:Math.random()*cv.height,
+      r: kind==='petal' ? Math.random()*4+3 : Math.random()*2+.6,
+      s: kind==='petal' ? Math.random()*.7+.35 : Math.random()*.9+.3,
+      vx:(Math.random()-.5)*(kind==='petal'?.7:.3),
+      tw:Math.random()*Math.PI*2, rot:Math.random()*Math.PI*2, vr:(Math.random()-.5)*.03, kind};
+  });
+}
+function drawStars(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  stars.forEach(st=>{
+    st.tw+=.04; st.y+=st.s; st.x+=st.vx+Math.sin(st.tw)*.2; st.rot+=st.vr;
+    if(st.y>cv.height+12){st.y=-12;st.x=Math.random()*cv.width} if(st.x>cv.width+12)st.x=-12; if(st.x<-12)st.x=cv.width+12;
+    const a = st.kind==='white' ? .5+Math.abs(Math.sin(st.tw))*.5 : .28+Math.abs(Math.sin(st.tw))*.5;
+    if(st.kind==='petal'){
+      ctx.save();ctx.translate(st.x,st.y);ctx.rotate(st.rot);
+      ctx.beginPath();ctx.ellipse(0,0,st.r,st.r*.55,0,0,7);
+      ctx.fillStyle=`rgba(139,92,246,${a})`;ctx.fill();
+      ctx.shadowBlur=6;ctx.shadowColor='#8b5cf6';
+      ctx.restore();ctx.shadowBlur=0;
+    } else {
+      ctx.beginPath();ctx.arc(st.x,st.y,st.r,0,7);
+      ctx.fillStyle = st.kind==='red' ? `rgba(220,38,38,${a})` : st.kind==='white' ? `rgba(255,255,255,${a})` : `rgba(109,40,217,${a})`;
+      ctx.fill();
+      if(st.r>1.5){ctx.shadowBlur=8;ctx.shadowColor=st.kind==='red'?'#dc2626':'#8b5cf6'}else{ctx.shadowBlur=0}
+    }
+  });
+  requestAnimationFrame(drawStars);
+}
+addEventListener('resize',initStars);
+
+/* shooting stars */
+function shoot(){
+  const el=document.createElement('div');el.className='shoot';
+  el.style.top=Math.random()*30+'%';el.style.left=(40+Math.random()*55)+'%';
+  document.body.appendChild(el);
+  el.animate([{opacity:1,transform:'rotate(-25deg) translateX(0)'},{opacity:0,transform:'rotate(-25deg) translateX(-400px)'}],{duration:1100,easing:'ease-out'}).onfinish=()=>el.remove();
+  setTimeout(shoot,2500+Math.random()*4000);
+}
+
+/* glow only - no tilt, content stays fixed */
+const card=document.getElementById('mainCard'),glow=document.getElementById('cursorGlow');
+addEventListener('mousemove',e=>{
+  glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px';
+});
+
+/* init */
+if(document.getElementById('year')) document.getElementById('year').textContent=new Date().getFullYear();
+applyProfile(); renderLinks();
+const sv=store.get('theme',null); if(sv && document.querySelector(`.theme[onclick*="${sv}"]`)) setTheme(sv,document.querySelector(`.theme[onclick*="${sv}"]`));
+const sf=store.get('font',null); if(sf && document.getElementById('fontSelect')){document.getElementById('fontSelect').value=sf; setFont(sf);}
+let views=store.get('views',0)+1; store.set('views',views);
+if(document.getElementById('statViews')) document.getElementById('statViews').textContent=views>1000?(views/1000).toFixed(1)+'k':views;
+initStars(); drawStars(); shoot();
+</script>
+</body>
+</html>
