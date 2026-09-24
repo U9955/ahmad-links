@@ -187,7 +187,7 @@ input[type=color]{width:100%;height:40px;border:1px solid var(--line);border-rad
           <h3>🌍 Publish — تحديث عالمي لكل الزوار</h3>
           <div class="hint">ينشر تعديلاتك على الموقع الرسمي — تظهر عند الجميع بعد دقيقة تقريباً</div>
           <label class="lbl">GitHub Token (repo)</label>
-          <input type="password" id="ghToken" placeholder="ghp_...">
+          <input type="password" id="ghToken" placeholder="ghp_..." oninput="saveGhToken()">
           <div style="font-size:12px;color:var(--muted);margin:8px 0">Repo: <b>U9955/ahmad-links</b> • Branch: <b>master</b></div>
           <button class="btn btn-p" style="width:100%;justify-content:center" onclick="publishGlobal()">🚀 Publish Now</button>
           <div id="pubStatus" style="font-size:13px;margin-top:10px;color:var(--muted)"></div>
@@ -394,6 +394,7 @@ function resetAll(){ if(confirm('Reset everything to defaults?')){ try{localStor
 
 /* ===== GLOBAL PUBLISH via GitHub (shows for everyone after Vercel redeploy) ===== */
 const GH_OWNER = 'U9955', GH_REPO = 'ahmad-links', GH_BRANCH = 'master';
+function saveGhToken(){ try{ localStorage.setItem('u9955_gh', (document.getElementById('ghToken').value||'').trim()); }catch(_){} }
 function ghHeaders(){
   const t = (document.getElementById('ghToken').value||'').trim();
   if(!t){ toast('Paste GitHub token first ⚠️'); return null; }
